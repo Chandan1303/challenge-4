@@ -11,7 +11,7 @@ flowchart LR
   Fan["Fans, volunteers, staff"] --> UI["Next.js Dashboard"]
   UI --> API["Express API"]
   UI <--> Socket["Socket.IO Crowd Updates"]
-  API --> AI["Gorq or local AI fallback"]
+  API --> AI["GROQ_API or local AI fallback"]
   API --> Data["PostgreSQL-ready repository layer"]
   API --> Maps["Google Maps, Routes, Places, Translation, Speech APIs"]
 ```
@@ -20,7 +20,7 @@ flowchart LR
 
 - Frontend: Next.js App Router, React, TypeScript, Tailwind CSS, Framer Motion, lucide icons
 - Backend: Node.js, Express, TypeScript, Socket.IO
-- AI: Gorq api integration with deterministic local fallback
+- AI: GROQ_API integration with deterministic local fallback
 - Data: PostgreSQL-ready configuration with realistic mock operational data
 - Security: Helmet, CORS, rate limiting, request validation, environment variables
 - Testing: Vitest, Supertest, React Testing Library
@@ -83,8 +83,7 @@ npm run dev
 
 See `.env.example`.
 
-- `GEMINI_API_KEY`: enables live Gemini 2.5 Flash responses
-- `GOOGLE_MAPS_API_KEY`: enables Google Maps features
+-   GROQ_API
 - `DATABASE_URL`: PostgreSQL connection string
 - `JWT_SECRET`: authentication signing secret
 - `FRONTEND_ORIGIN`: allowed browser origin for CORS
