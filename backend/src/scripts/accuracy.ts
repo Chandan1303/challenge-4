@@ -1,4 +1,4 @@
-import { scoreDecision } from "../types.js";
+import { scoreDecision } from "@stadiummind/shared";
 import { buildOperationalDecision } from "../services/aiService.js";
 
 const score = scoreDecision(buildOperationalDecision());

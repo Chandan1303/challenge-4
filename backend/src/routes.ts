@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { LanguageCode, scoreDecision } from "./types.js";
+import { LanguageCode, scoreDecision } from "@stadiummind/shared";
 import { stadiums } from "./data/stadium.js";
 import { answerQuestion } from "./services/aiService.js";
 import {
@@ -102,5 +102,5 @@ const navigationQuerySchema = stadiumQuerySchema.extend({
 });
 
 const emergencyQuerySchema = stadiumQuerySchema.extend({
-  language: z.enum(["en", "es", "fr", "hi", "ar", "pt"]).default("en") as z.ZodType<LanguageCode>
+  language: z.enum(["en", "es", "fr", "hi", "ar", "pt"]).default("en").transform((value) => value as LanguageCode)
 });

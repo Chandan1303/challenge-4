@@ -18,7 +18,13 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ): void {
-  console.error("Error:", err);
+  if (process.env.NODE_ENV !== "test") {
+    console.error("Application error:", {
+      name: err.name,
+      message: err.message,
+      stack: process.env.NODE_ENV === "development" ? err.stack : undefined
+    });
+  }
 
   if (err instanceof ZodError) {
     res.status(400).json({
@@ -29,6 +35,13 @@ export function errorHandler(
   }
 
   if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      error: err.message
+    });
+    return;
+  }
+
+  if ("statusCode" in err && typeof err.statusCode === "number") {
     res.status(err.statusCode).json({
       error: err.message
     });

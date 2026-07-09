@@ -2,7 +2,7 @@
 
 **The AI Operating System for Smart Stadiums**
 
-StadiumMind AI is a production-style hackathon project for FIFA World Cup 2026 stadium operations. It combines a Next.js operations console, an Express API, real-time crowd updates, contextual AI reasoning, accessibility-aware routing, volunteer coordination, emergency response, and sustainability intelligence.
+StadiumMind AI is a production-style hackathon project for **Prompt Wars Virtual Challenge 4** and FIFA World Cup 2026 stadium operations. It combines a Next.js operations console, an Express API, real-time crowd updates, contextual AI reasoning, accessibility-aware routing, volunteer coordination, emergency response, and sustainability intelligence.
 
 ## Challenge Vertical: Stadium Operations Manager
 
@@ -17,6 +17,8 @@ StadiumMind AI is a production-style hackathon project for FIFA World Cup 2026 s
 - Provides accessibility-aware navigation for diverse fan needs
 - Supports multilingual operations for international events
 - Tracks sustainability metrics for environmental responsibility
+
+See the detailed evaluator mapping in [docs/evaluation-rubric.md](docs/evaluation-rubric.md).
 
 ## Architecture
 
@@ -80,6 +82,19 @@ The backend exposes challenge-aligned endpoints so the project can be evaluated 
 
 Each AI decision returns current situation, reasoning, prediction, recommended action, confidence, evidence sources, and a deterministic quality score.
 
+## Challenge 4 Alignment
+
+| Challenge Need | StadiumMind AI Implementation |
+| --- | --- |
+| Navigation | Smart route API and UI for fastest, least-crowded, wheelchair, and emergency paths |
+| Crowd Management | Gate occupancy, queue length, incoming fan volume, risk score, and AI crowd recommendations |
+| Accessibility | Wheelchair route scoring, accessible gates, visible focus states, semantic labels, multilingual emergency guidance |
+| Transportation | Parking-to-seat routing and arrival-pressure modeling for buses, parking, and transit plaza gates |
+| Sustainability | Energy, water, waste, carbon metrics, and AI recommendations to reduce match-day footprint |
+| Multilingual Assistance | English, Spanish, French, Hindi, Arabic, and Portuguese assistant/emergency support |
+| Operational Intelligence | Volunteer copilot, live alerts, medical requests, and scored operational decision objects |
+| Real-Time Decision Support | Socket.IO crowd channel, cache-aware APIs, confidence scoring, and immediate action recommendations |
+
 ## Google APIs
 
 The app is designed to use only Google APIs that improve the experience:
@@ -125,7 +140,8 @@ npm run dev
 
 See `.env.example`.
 
--   GROQ_API
+- `GROQ_API_KEY`: enables Groq-powered AI assistant responses
+- `AI_TIMEOUT_MS`: maximum AI response wait time before deterministic fallback
 - `DATABASE_URL`: PostgreSQL connection string
 - `JWT_SECRET`: authentication signing secret
 - `FRONTEND_ORIGIN`: allowed browser origin for CORS

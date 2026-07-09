@@ -1,4 +1,4 @@
-import { AiDecision, LanguageCode, NavigationRoute, VolunteerTask, scoreDecision } from "../types.js";
+import { AiDecision, LanguageCode, NavigationRoute, VolunteerTask, scoreDecision } from "@stadiummind/shared";
 import { getStadiumData } from "../data/stadium.js";
 
 export function getOperationalSnapshot(stadiumId = "metlife") {

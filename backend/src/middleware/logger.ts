@@ -14,10 +14,9 @@ export function requestLogger(req: Request, res: Response, next: NextFunction): 
       userAgent: req.get("user-agent")
     };
     
-    if (res.statusCode >= 400) {
-      console.error("Request Error:", logData);
-    } else {
-      console.log("Request:", logData);
+    if (res.statusCode >= 400 || process.env.NODE_ENV === "development") {
+      const writer = res.statusCode >= 400 ? console.warn : console.info;
+      writer("request", logData);
     }
   });
   

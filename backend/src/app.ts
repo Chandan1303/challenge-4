@@ -43,7 +43,7 @@ export function createApp() {
       if (allowedOrigins.includes(origin) || allowedOriginPatterns.some((pattern) => pattern.test(origin))) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(Object.assign(new Error("Origin not allowed"), { statusCode: 403 }));
       }
     },
     credentials: true 
@@ -51,7 +51,9 @@ export function createApp() {
   
   app.use(express.json({ limit: "100kb" }));
   app.use(rateLimit({ windowMs: 60_000, limit: 120, standardHeaders: true, legacyHeaders: false }));
-  app.use(requestLogger);
+  if (config.NODE_ENV !== "test") {
+    app.use(requestLogger);
+  }
   app.use("/api", api);
   app.use(notFoundHandler);
   app.use(errorHandler);

@@ -27,6 +27,7 @@ export function Dashboard({ snapshot: initialSnapshot }: { snapshot: Snapshot })
   const [selectedStadium, setSelectedStadium] = useState(initialSnapshot.stadium);
   const [stadiums, setStadiums] = useState<Stadium[]>([initialSnapshot.stadium]);
   const [isStadiumDropdownOpen, setIsStadiumDropdownOpen] = useState(false);
+  const [operatorNotice, setOperatorNotice] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -56,8 +57,9 @@ export function Dashboard({ snapshot: initialSnapshot }: { snapshot: Snapshot })
       setSnapshot(newSnapshot);
       setAnswer(newSnapshot.aiRecommendation);
       setScore(newSnapshot.score);
-    } catch (error) {
-      console.error("Failed to load stadium data:", error);
+      setOperatorNotice(`${stadium.name} operations loaded`);
+    } catch {
+      setOperatorNotice("Could not refresh venue data; keeping the current operational snapshot.");
     }
   };
 
@@ -198,6 +200,7 @@ export function Dashboard({ snapshot: initialSnapshot }: { snapshot: Snapshot })
               >
                 <Badge tone="good">Live Monitoring</Badge>
               </motion.div>
+              {operatorNotice ? <Badge tone="neutral">{operatorNotice}</Badge> : null}
             </div>
           </div>
         </motion.div>
@@ -488,7 +491,7 @@ export function Dashboard({ snapshot: initialSnapshot }: { snapshot: Snapshot })
                 whileHover={{ y: -4, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                onClick={() => console.log(`Emergency action: ${item.action}`)}
+                onClick={() => setOperatorNotice(`${item.action} queued for operations review`)}
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
