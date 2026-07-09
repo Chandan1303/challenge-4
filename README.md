@@ -20,7 +20,7 @@ flowchart LR
 
 - Frontend: Next.js App Router, React, TypeScript, Tailwind CSS, Framer Motion, lucide icons
 - Backend: Node.js, Express, TypeScript, Socket.IO
-- AI: Gemini 2.5 Flash integration with deterministic local fallback
+- AI: Gorq api integration with deterministic local fallback
 - Data: PostgreSQL-ready configuration with realistic mock operational data
 - Security: Helmet, CORS, rate limiting, request validation, environment variables
 - Testing: Vitest, Supertest, React Testing Library
