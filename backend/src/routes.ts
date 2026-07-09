@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { LanguageCode, scoreDecision } from "@stadiummind/shared";
+import { LanguageCode, scoreDecision } from "./types.js";
 import { stadiums } from "./data/stadium.js";
 import { answerQuestion } from "./services/aiService.js";
 import {

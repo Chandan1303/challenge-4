@@ -1,5 +1,5 @@
 import Groq from "groq-sdk";
-import { AiDecision, LanguageCode, scoreDecision } from "@stadiummind/shared";
+import { AiDecision, LanguageCode, scoreDecision } from "../types.js";
 import { config } from "../config.js";
 import { getStadiumData } from "../data/stadium.js";
 import { buildCrowdDecision } from "./operationsService.js";

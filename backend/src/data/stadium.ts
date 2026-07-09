@@ -1,4 +1,4 @@
-import { Alert, GateMetric, NavigationRoute, SustainabilityMetric, VolunteerTask, calculateGateRisk } from "@stadiummind/shared";
+import { Alert, GateMetric, NavigationRoute, SustainabilityMetric, VolunteerTask, calculateGateRisk } from "../types.js";
 
 export interface Stadium {
   id: string;

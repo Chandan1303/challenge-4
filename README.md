@@ -4,6 +4,20 @@
 
 StadiumMind AI is a production-style hackathon project for FIFA World Cup 2026 stadium operations. It combines a Next.js operations console, an Express API, real-time crowd updates, contextual AI reasoning, accessibility-aware routing, volunteer coordination, emergency response, and sustainability intelligence.
 
+## Challenge Vertical: Stadium Operations Manager
+
+**Chosen Persona:** Stadium Operations Manager responsible for real-time crowd management, safety monitoring, and operational decision-making during FIFA World Cup 2026 matches.
+
+**Problem Statement:** Stadium operators need real-time intelligence to make split-second decisions about crowd flow, emergency response, and resource allocation. Traditional systems lack AI-powered contextual reasoning and multi-stadium coordination capabilities.
+
+**Solution Approach:** StadiumMind AI provides an intelligent decision support system that:
+- Monitors real-time crowd metrics across multiple stadium gates
+- Uses AI to analyze situations and recommend optimal actions
+- Coordinates volunteers and emergency response teams
+- Provides accessibility-aware navigation for diverse fan needs
+- Supports multilingual operations for international events
+- Tracks sustainability metrics for environmental responsibility
+
 ## Architecture
 
 ```mermaid
@@ -18,25 +32,39 @@ flowchart LR
 
 ## Tech Stack
 
-- Frontend: Next.js App Router, React, TypeScript, Tailwind CSS, Framer Motion, lucide icons
-- Backend: Node.js, Express, TypeScript, Socket.IO
+- Frontend: Next.js 15 App Router, React, TypeScript, Tailwind CSS, Framer Motion, lucide icons
+- Backend: Node.js 22, Express, TypeScript, Socket.IO
 - AI: GROQ_API integration with deterministic local fallback
 - Data: PostgreSQL-ready configuration with realistic mock operational data
-- Security: Helmet, CORS, rate limiting, request validation, environment variables
+- Security: Helmet, CORS, rate limiting, request validation, environment variables, input sanitization
 - Testing: Vitest, Supertest, React Testing Library
-- Deployment: Docker and Docker Compose
+- Deployment: Docker, Docker Compose, Google Cloud Run
 
 ## Features
 
-- AI Stadium Assistant with situation, reasoning, prediction, action, confidence, and source evidence
-- Crowd Intelligence dashboard with gate occupancy, queue length, risk scoring, and heatmap
-- Smart Navigation for fastest, least-crowded, accessible, and emergency routes
-- Multilingual controls for English, Spanish, French, Hindi, Arabic, and Portuguese
-- Organizer dashboard with alerts, volunteer status, medical requests, and AI recommendations
-- Volunteer Copilot with task, priority, location, reason, and ETA
-- Emergency Response panel with evacuation and announcement actions
-- Sustainability dashboard for energy, water, waste, and carbon estimates
-- Light and dark mode with keyboard-visible focus states
+### Core Capabilities
+- **AI Stadium Assistant**: Contextual AI reasoning with situation analysis, prediction, recommended actions, confidence scores, and evidence sources
+- **Crowd Intelligence Dashboard**: Real-time monitoring of gate occupancy, queue lengths, risk scoring, and heatmap visualization
+- **Smart Navigation**: Multi-mode routing (fastest, least-crowded, wheelchair-accessible, emergency) with step-by-step directions
+- **Multi-Stadium Support**: Dynamic stadium selection with venue-specific data and operational metrics
+
+### User Experience
+- **Multilingual Support**: English, Spanish, French, Hindi, Arabic, and Portuguese for international events
+- **Accessibility-First Design**: WCAG AA compliant with keyboard navigation, screen reader support, and high contrast modes
+- **Responsive Interface**: Optimized for desktop, tablet, and mobile devices with touch-friendly controls
+- **Real-Time Updates**: Live crowd metrics, alerts, and volunteer status with WebSocket integration
+
+### Operational Features
+- **Volunteer Copilot**: Task assignment with priority levels, location tracking, ETA estimates, and reasoning
+- **Emergency Response Panel**: Quick-action evacuation routes, medical dispatch, and multi-language announcements
+- **Sustainability Dashboard**: Energy consumption, water usage, waste management, and carbon footprint tracking
+- **Alert System**: Severity-based notifications with recommended actions and confidence levels
+
+### Technical Excellence
+- **Modern UI/UX**: Gradient-based design, smooth animations with Framer Motion, dark/light mode
+- **Security Best Practices**: Helmet headers, CORS protection, rate limiting, input validation, environment variable isolation
+- **Performance**: Optimized rendering, caching strategies, efficient API responses
+- **Testing**: Comprehensive unit tests, integration tests, and accuracy scoring
 
 ## Evaluation-Focused API Surface
 
