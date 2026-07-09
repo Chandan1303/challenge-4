@@ -11,7 +11,7 @@ flowchart LR
   Fan["Fans, volunteers, staff"] --> UI["Next.js Dashboard"]
   UI --> API["Express API"]
   UI <--> Socket["Socket.IO Crowd Updates"]
-  API --> AI["Gemini 2.5 Flash or local AI fallback"]
+  API --> AI["Gorq or local AI fallback"]
   API --> Data["PostgreSQL-ready repository layer"]
   API --> Maps["Google Maps, Routes, Places, Translation, Speech APIs"]
 ```
