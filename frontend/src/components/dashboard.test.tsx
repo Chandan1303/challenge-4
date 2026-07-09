@@ -5,6 +5,14 @@ import { Dashboard } from "./dashboard";
 import { Snapshot } from "@/lib/api";
 
 const snapshot: Snapshot = {
+  stadium: {
+    id: "metlife",
+    name: "MetLife Stadium",
+    city: "East Rutherford",
+    country: "USA",
+    capacity: 82500,
+    coordinates: { lat: 40.8135, lng: -74.0745 }
+  },
   gates: [{ id: "g3", name: "Gate 3", occupancy: 91, queueMinutes: 24, processingRatePerMinute: 44, incomingFans: 620, riskScore: 95, trend: "rising" }],
   alerts: [{ id: "a1", severity: "high", title: "Queue pressure rising", location: "Gate 3", summary: "Crowd pressure is rising.", recommendedAction: "Redirect fans.", confidence: 94 }],
   routes: [{ id: "r1", mode: "wheelchair", from: "Parking B", to: "Section 118A", durationMinutes: 12, distanceMeters: 610, crowdExposure: 24, accessible: true, steps: ["Use ramp", "Take elevator"] }],
@@ -25,6 +33,7 @@ describe("Dashboard", () => {
   it("renders the final score and core modules", () => {
     render(<Dashboard snapshot={snapshot} />);
     expect(screen.getByText("StadiumMind AI")).toBeInTheDocument();
+    expect(screen.getAllByText("MetLife Stadium").length).toBeGreaterThan(0);
     expect(screen.getByText("100%")).toBeInTheDocument();
     expect(screen.getByText("AI Stadium Assistant")).toBeInTheDocument();
   });

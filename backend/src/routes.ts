@@ -1,8 +1,16 @@
 import { Router } from "express";
 import { z } from "zod";
-import { scoreDecision } from "@stadiummind/shared";
-import { alerts, gates, routes, sustainability, volunteerTasks, stadiums, getStadiumData } from "./data/stadium.js";
-import { answerQuestion, buildOperationalDecision } from "./services/aiService.js";
+import { LanguageCode, scoreDecision } from "@stadiummind/shared";
+import { stadiums } from "./data/stadium.js";
+import { answerQuestion } from "./services/aiService.js";
+import {
+  buildCrowdDecision,
+  getEmergencyPlan,
+  getNavigationPlan,
+  getOperationalSnapshot,
+  getSustainabilityPlan,
+  getVolunteerCopilot
+} from "./services/operationsService.js";
 
 export const api = Router();
 
@@ -11,23 +19,14 @@ api.get("/health", (_req, res) => {
 });
 
 api.get("/stadiums", (_req, res) => {
+  res.set("Cache-Control", "public, max-age=300, stale-while-revalidate=600");
   res.json(stadiums);
 });
 
 api.get("/operations/snapshot", (req, res) => {
-  const stadiumId = (req.query.stadium as string) || "metlife";
-  const stadiumData = getStadiumData(stadiumId);
-  const decision = buildOperationalDecision();
-  res.json({
-    stadium: stadiumData.stadium,
-    gates: stadiumData.gates,
-    alerts: stadiumData.alerts,
-    routes: stadiumData.routes,
-    sustainability: stadiumData.sustainability,
-    volunteerTasks: stadiumData.volunteerTasks,
-    aiRecommendation: decision,
-    score: scoreDecision(decision)
-  });
+  const { stadium } = stadiumQuerySchema.parse(req.query);
+  res.set("Cache-Control", "public, max-age=15, stale-while-revalidate=45");
+  res.json(getOperationalSnapshot(stadium));
 });
 
 api.post("/assistant", async (req, res, next) => {
@@ -37,14 +36,54 @@ api.post("/assistant", async (req, res, next) => {
       language: z.enum(["en", "es", "fr", "hi", "ar", "pt"]).default("en"),
       stadium: z.string().optional()
     }).parse(req.body);
-    res.json(await answerQuestion(body.question, body.language));
+    res.json(await answerQuestion(body.question, body.language, body.stadium));
+  } catch (error) {
+    next(error);
+  }
+});
+
+api.get("/navigation", (req, res, next) => {
+  try {
+    const { stadium, mode } = navigationQuerySchema.parse(req.query);
+    res.set("Cache-Control", "public, max-age=30, stale-while-revalidate=60");
+    res.json(getNavigationPlan(stadium, mode));
+  } catch (error) {
+    next(error);
+  }
+});
+
+api.get("/volunteers/copilot", (req, res, next) => {
+  try {
+    const { stadium } = stadiumQuerySchema.parse(req.query);
+    res.set("Cache-Control", "public, max-age=20, stale-while-revalidate=60");
+    res.json(getVolunteerCopilot(stadium));
+  } catch (error) {
+    next(error);
+  }
+});
+
+api.get("/emergency/plan", (req, res, next) => {
+  try {
+    const { stadium, language } = emergencyQuerySchema.parse(req.query);
+    res.set("Cache-Control", "no-store");
+    res.json(getEmergencyPlan(stadium, language));
+  } catch (error) {
+    next(error);
+  }
+});
+
+api.get("/sustainability/recommendations", (req, res, next) => {
+  try {
+    const { stadium } = stadiumQuerySchema.parse(req.query);
+    res.set("Cache-Control", "public, max-age=60, stale-while-revalidate=120");
+    res.json(getSustainabilityPlan(stadium));
   } catch (error) {
     next(error);
   }
 });
 
 api.get("/accuracy", (_req, res) => {
-  const decision = buildOperationalDecision();
+  const decision = buildCrowdDecision("metlife");
   const score = scoreDecision(decision);
   res.json({
     score,
@@ -52,4 +91,16 @@ api.get("/accuracy", (_req, res) => {
     passed: score >= 98,
     rubric: "Completeness, confidence, evidence sources, and stadium-specific operational detail."
   });
+});
+
+const stadiumQuerySchema = z.object({
+  stadium: z.string().min(2).max(40).default("metlife")
+});
+
+const navigationQuerySchema = stadiumQuerySchema.extend({
+  mode: z.enum(["fastest", "least-crowded", "wheelchair", "emergency"]).default("least-crowded")
+});
+
+const emergencyQuerySchema = stadiumQuerySchema.extend({
+  language: z.enum(["en", "es", "fr", "hi", "ar", "pt"]).default("en") as z.ZodType<LanguageCode>
 });

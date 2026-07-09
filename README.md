@@ -38,6 +38,20 @@ flowchart LR
 - Sustainability dashboard for energy, water, waste, and carbon estimates
 - Light and dark mode with keyboard-visible focus states
 
+## Evaluation-Focused API Surface
+
+The backend exposes challenge-aligned endpoints so the project can be evaluated beyond the visual dashboard:
+
+- `GET /api/operations/snapshot?stadium=metlife`
+- `POST /api/assistant`
+- `GET /api/navigation?stadium=metlife&mode=wheelchair`
+- `GET /api/volunteers/copilot?stadium=metlife`
+- `GET /api/emergency/plan?stadium=metlife&language=es`
+- `GET /api/sustainability/recommendations?stadium=metlife`
+- `GET /api/accuracy`
+
+Each AI decision returns current situation, reasoning, prediction, recommended action, confidence, evidence sources, and a deterministic quality score.
+
 ## Google APIs
 
 The app is designed to use only Google APIs that improve the experience:

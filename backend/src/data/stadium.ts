@@ -120,34 +120,35 @@ const stadiumData: Record<string, {
 
 // Generate data for remaining stadiums with variations
 const generateStadiumData = (stadiumId: string): typeof stadiumData.metlife => {
+  const seeded = (label: string, min: number, max: number) => deterministicRange(`${stadiumId}-${label}`, min, max);
   const baseGates = [
-    { id: `gate-1-${stadiumId}`, name: "Gate 1 North", occupancy: Math.floor(Math.random() * 30) + 40, queueMinutes: Math.floor(Math.random() * 15) + 5, processingRatePerMinute: Math.floor(Math.random() * 20) + 45, incomingFans: Math.floor(Math.random() * 300) + 100, trend: "stable" as const },
-    { id: `gate-3-${stadiumId}`, name: "Gate 3 East", occupancy: Math.floor(Math.random() * 30) + 50, queueMinutes: Math.floor(Math.random() * 20) + 10, processingRatePerMinute: Math.floor(Math.random() * 20) + 40, incomingFans: Math.floor(Math.random() * 400) + 200, trend: "rising" as const },
-    { id: `gate-5-${stadiumId}`, name: "Gate 5 South", occupancy: Math.floor(Math.random() * 30) + 30, queueMinutes: Math.floor(Math.random() * 10) + 4, processingRatePerMinute: Math.floor(Math.random() * 20) + 55, incomingFans: Math.floor(Math.random() * 200) + 80, trend: "falling" as const },
-    { id: `gate-7-${stadiumId}`, name: "Gate 7 Accessible", occupancy: Math.floor(Math.random() * 30) + 35, queueMinutes: Math.floor(Math.random() * 12) + 6, processingRatePerMinute: Math.floor(Math.random() * 15) + 25, incomingFans: Math.floor(Math.random() * 100) + 50, trend: "stable" as const }
+    { id: `gate-1-${stadiumId}`, name: "Gate 1 North", occupancy: seeded("g1-occ", 40, 69), queueMinutes: seeded("g1-queue", 5, 19), processingRatePerMinute: seeded("g1-rate", 45, 64), incomingFans: seeded("g1-inbound", 100, 399), trend: "stable" as const },
+    { id: `gate-3-${stadiumId}`, name: "Gate 3 East", occupancy: seeded("g3-occ", 50, 79), queueMinutes: seeded("g3-queue", 10, 29), processingRatePerMinute: seeded("g3-rate", 40, 59), incomingFans: seeded("g3-inbound", 200, 599), trend: "rising" as const },
+    { id: `gate-5-${stadiumId}`, name: "Gate 5 South", occupancy: seeded("g5-occ", 30, 59), queueMinutes: seeded("g5-queue", 4, 13), processingRatePerMinute: seeded("g5-rate", 55, 74), incomingFans: seeded("g5-inbound", 80, 279), trend: "falling" as const },
+    { id: `gate-7-${stadiumId}`, name: "Gate 7 Accessible", occupancy: seeded("g7-occ", 35, 64), queueMinutes: seeded("g7-queue", 6, 17), processingRatePerMinute: seeded("g7-rate", 25, 39), incomingFans: seeded("g7-inbound", 50, 149), trend: "stable" as const }
   ];
 
   const baseAlerts = [
-    { id: `alert-queue-${stadiumId}`, severity: "high" as const, title: "Queue pressure rising", location: "Gate 3 East", summary: "Increased arrivals causing entry delays.", recommendedAction: "Redirect fans to alternate gates and increase staffing.", confidence: Math.floor(Math.random() * 10) + 85 },
-    { id: `alert-med-${stadiumId}`, severity: "medium" as const, title: "Medical standby", location: "Section 105", summary: "Minor injury reported near concession area.", recommendedAction: "Send medical team for assessment.", confidence: Math.floor(Math.random() * 10) + 85 }
+    { id: `alert-queue-${stadiumId}`, severity: "high" as const, title: "Queue pressure rising", location: "Gate 3 East", summary: "Increased arrivals causing entry delays.", recommendedAction: "Redirect fans to alternate gates and increase staffing.", confidence: seeded("alert-queue-confidence", 85, 94) },
+    { id: `alert-med-${stadiumId}`, severity: "medium" as const, title: "Medical standby", location: "Section 105", summary: "Minor injury reported near concession area.", recommendedAction: "Send medical team for assessment.", confidence: seeded("alert-med-confidence", 85, 94) }
   ];
 
   const baseRoutes = [
-    { id: `route-fast-${stadiumId}`, mode: "fastest" as const, from: "Gate 1", to: "Section 205", durationMinutes: Math.floor(Math.random() * 5) + 5, distanceMeters: Math.floor(Math.random() * 200) + 300, crowdExposure: Math.floor(Math.random() * 30) + 40, accessible: false, steps: ["Enter Gate 1", "Take main concourse", "Use escalator to 200 level", "Turn right at destination"] },
-    { id: `route-low-${stadiumId}`, mode: "least-crowded" as const, from: "Gate 5", to: "Section 205", durationMinutes: Math.floor(Math.random() * 5) + 10, distanceMeters: Math.floor(Math.random() * 200) + 450, crowdExposure: Math.floor(Math.random() * 20) + 20, accessible: true, steps: ["Enter Gate 5", "Follow south concourse", "Use elevator", "Approach from south aisle"] },
-    { id: `route-wheelchair-${stadiumId}`, mode: "wheelchair" as const, from: "Parking", to: "Accessible Seating", durationMinutes: Math.floor(Math.random() * 5) + 10, distanceMeters: Math.floor(Math.random() * 200) + 500, crowdExposure: Math.floor(Math.random() * 15) + 15, accessible: true, steps: ["Use parking ramp", "Enter accessible gate", "Pass services desk", "Take elevator"] }
+    { id: `route-fast-${stadiumId}`, mode: "fastest" as const, from: "Gate 1", to: "Section 205", durationMinutes: seeded("fast-duration", 5, 9), distanceMeters: seeded("fast-distance", 300, 499), crowdExposure: seeded("fast-crowd", 40, 69), accessible: false, steps: ["Enter Gate 1", "Take main concourse", "Use escalator to 200 level", "Turn right at destination"] },
+    { id: `route-low-${stadiumId}`, mode: "least-crowded" as const, from: "Gate 5", to: "Section 205", durationMinutes: seeded("low-duration", 10, 14), distanceMeters: seeded("low-distance", 450, 649), crowdExposure: seeded("low-crowd", 20, 39), accessible: true, steps: ["Enter Gate 5", "Follow south concourse", "Use elevator", "Approach from south aisle"] },
+    { id: `route-wheelchair-${stadiumId}`, mode: "wheelchair" as const, from: "Parking", to: "Accessible Seating", durationMinutes: seeded("wheelchair-duration", 10, 14), distanceMeters: seeded("wheelchair-distance", 500, 699), crowdExposure: seeded("wheelchair-crowd", 15, 29), accessible: true, steps: ["Use parking ramp", "Enter accessible gate", "Pass services desk", "Take elevator"] }
   ];
 
   const baseSustainability = [
-    { label: "Energy usage", value: Math.floor(Math.random() * 20) + 60, unit: "% of match-day target", status: "watch" as const },
-    { label: "Water usage", value: Math.floor(Math.random() * 20) + 50, unit: "% of target", status: "good" as const },
-    { label: "Waste sorted", value: Math.floor(Math.random() * 20) + 70, unit: "%", status: "good" as const },
-    { label: "Carbon estimate", value: Math.floor(Math.random() * 10) + 12, unit: "tCO2e", status: "watch" as const }
+    { label: "Energy usage", value: seeded("energy", 60, 79), unit: "% of match-day target", status: "watch" as const },
+    { label: "Water usage", value: seeded("water", 50, 69), unit: "% of target", status: "good" as const },
+    { label: "Waste sorted", value: seeded("waste", 70, 89), unit: "%", status: "good" as const },
+    { label: "Carbon estimate", value: seeded("carbon", 12, 21), unit: "tCO2e", status: "watch" as const }
   ];
 
   const baseVolunteerTasks = [
-    { id: `task-1-${stadiumId}`, volunteer: "Volunteer Team A", task: "Assist crowd management", priority: "high" as const, location: "Main entrance", reason: "High traffic volume expected.", etaMinutes: Math.floor(Math.random() * 10) + 10 },
-    { id: `task-2-${stadiumId}`, volunteer: "Volunteer Team B", task: "Medical support standby", priority: "medium" as const, location: "Section 105", reason: "Medical alert in area.", etaMinutes: Math.floor(Math.random() * 10) + 5 }
+    { id: `task-1-${stadiumId}`, volunteer: "Volunteer Team A", task: "Assist crowd management", priority: "high" as const, location: "Main entrance", reason: "High traffic volume expected.", etaMinutes: seeded("task-a-eta", 10, 19) },
+    { id: `task-2-${stadiumId}`, volunteer: "Volunteer Team B", task: "Medical support standby", priority: "medium" as const, location: "Section 105", reason: "Medical alert in area.", etaMinutes: seeded("task-b-eta", 5, 14) }
   ];
 
   return {
@@ -158,6 +159,14 @@ const generateStadiumData = (stadiumId: string): typeof stadiumData.metlife => {
     volunteerTasks: baseVolunteerTasks
   };
 };
+
+function deterministicRange(seed: string, min: number, max: number): number {
+  let hash = 0;
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = (hash * 31 + seed.charCodeAt(index)) >>> 0;
+  }
+  return min + (hash % (max - min + 1));
+}
 
 // Fill in remaining stadiums
 stadiums.forEach(stadium => {
